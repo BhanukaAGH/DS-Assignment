@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TableManagerConsumer
+Bundle-SymbolicName: TableManagerConsumer
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: tablemanagerconsumer.TableManagerConsumerActivator
+Bundle-RequiredExecutionEnvironment: JavaSE-15
+Import-Package: tablemanagerproducer,
+ org.osgi.framework;version="1.3.0"
+

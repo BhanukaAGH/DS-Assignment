@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RestaurantCashir_Producer
+Bundle-SymbolicName: RestaurantCashir_Producer
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.mtit.restaurantcashir_service.ServiceActivator
+Bundle-RequiredExecutionEnvironment: JavaSE-15
+Export-Package: com.mtit.restaurantcashir_service
+Import-Package: com.mtit.restaurantchef_service,
+ org.osgi.framework;version="1.3.0"
+
+

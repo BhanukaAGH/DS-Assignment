@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RestaurantCook_Producer
+Bundle-SymbolicName: RestaurantCook_Producer
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: restaurantcook_producer.ServiceActivator
+Bundle-RequiredExecutionEnvironment: JavaSE-15
+Import-Package: org.osgi.framework;version="1.3.0"
+Export-Package: restaurantcook_producer

@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RestaurantCook_Consumer
+Bundle-SymbolicName: RestaurantCook_Consumer
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: restaurantcook_consumer.ServiceActivator
+Bundle-RequiredExecutionEnvironment: JavaSE-15
+Import-Package: com.mtit.restaurantcashir_service,
+ org.osgi.framework;version="1.3.0",
+ restaurantcook_producer
+
