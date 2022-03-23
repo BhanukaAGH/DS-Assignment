@@ -18,16 +18,17 @@ import org.osgi.framework.ServiceReference;
 public class ServiceActivator implements BundleActivator {
 
 	ServiceReference serviceReference;
-	ServiceReference tablemanagerReference;//for table manager
+	ServiceReference tablemanagerReference;// for table manager
 	private boolean exit = false;
 	Scanner scanner = new Scanner(System.in);
 
 	public void start(BundleContext context) throws Exception {
 		System.out.println("============Restuarant cashier consumer started.============");
 		serviceReference = context.getServiceReference(CashierPublish.class.getName());
-		tablemanagerReference = context.getServiceReference(TableManagerProduce.class.getName());//for table manager
-		TableManagerProduce tableproduce = (TableManagerProduce) context.getService(tablemanagerReference);//for table manager
-		
+		tablemanagerReference = context.getServiceReference(TableManagerProduce.class.getName());// for table manager
+		TableManagerProduce tableproduce = (TableManagerProduce) context.getService(tablemanagerReference);// for table
+																											// manager
+
 		@SuppressWarnings("unchecked")
 		CashierPublish cashierPublish = (CashierPublish) context.getService(serviceReference);
 
@@ -89,9 +90,54 @@ public class ServiceActivator implements BundleActivator {
 				do {
 					System.out.println(
 							"---------------------Welcome to next customer's billing --------------------" + "\n");
+
+					String[][] billDetails = cashierPublish.displayBillDetails();// Consumes the cashierService displaybillDetails()
+																					 
+					
+					// Rivindu Changed to Check if table id is valid of tables and accept only
+					// tables from database
+
+					//
+					int tableID = 0;
+					while (true) {
+						while (true) {
+							System.out.print("2) Table ID:");
+							String userInput = scanner.next();
+							try {
+								tableID = Integer.parseInt(userInput);
+								if (tableID < 1) {
+									System.out.println("\n ID cant be less than 1 ");
+									continue;
+								}
+								break;
+							} catch (NumberFormatException e) {
+								System.out.println("Table ID can only be integer type Enter an Integer");
+								continue;
+
+							}
+						}
+
+						if (tableproduce.checkTableAvailability(tableID)) {
+							System.out.println("Table with ID " + tableID + " Found");
+							cashierPublish.addOrder(billDetails, tableID);
+							break;
+						} else {
+							System.out.println("Table with ID " + tableID + " NOT FOUND");
+							System.out.println("\n Enter 0 to exit or any other key to reenter ");
+							String back = scanner.next();
+							if (back.equals("0")) {
+								break;
+							} else {
+								continue;
+							}
+						}
+					}
+					//
+
 					do {
 
 						
+
 						System.out.println("Enter the Food id");
 						int id = scanner.nextInt();
 
@@ -113,8 +159,6 @@ public class ServiceActivator implements BundleActivator {
 
 					System.out.println(
 							"------------------------------------------Receipt----------------------------------------");
-					String[][] billDetails = cashierPublish.displayBillDetails();// Consumes the cashierService
-																					// displaybillDetails()
 
 					String format = "%-20s";
 					System.out.printf(format, "Food ID:");
@@ -138,57 +182,6 @@ public class ServiceActivator implements BundleActivator {
 					System.out.println("                                                          ----------");
 					System.out.println(
 							"-------------------------------------------------------------------------------------------");
-       //Rivindu Changed to Check if table id is valid of tables and accept only tables from database
-
-					//
-					int tableID=0;
-					while(true) {
-						while(true) {
-							System.out.print("2) Table ID:");
-							String userInput=scanner.next();
-							try {
-								tableID = Integer.parseInt(userInput);
-								if(tableID<1) {
-									System.out.println("\n ID cant be less than 1 ");
-									continue;
-								}
-								break;
-							}catch (NumberFormatException e) {
-							    System.out.println("Table ID can only be integer type Enter an Integer");
-							    continue;
-							    
-							}
-						}
-						
-				if(tableproduce.checkTableAvailability(tableID)) {
-						System.out.println("Table with ID "+tableID+" Found");
-						cashierPublish.addOrder(billDetails, tableID);
-						break;
-					}else {
-						System.out.println("Table with ID "+tableID+" NOT FOUND");
-						System.out.println("\n Enter 0 to exit or any other key to reenter ");
-						String back = scanner.next();
-						if (back.equals("0")) {
-							break;
-						}else {
-							continue;
-							}
-					}
-				}
-				//
-					
-					
-					for(Order order : OrderData.orderlist) {
-						System.out.println(order.getOrderID());
-						System.out.println(order.getTableID());
-						System.out.println(order.getOrderStatus());
-						for (int i = 0; i <= foodCount; i++) {
-							for (int j = 0; j < order.getFoodDetails()[i].length; j++) {
-								System.out.printf(format, order.getFoodDetails()[i][j]);
-							}
-							System.out.println("");
-						}
-					}
 
 					foodCount = -1;
 
