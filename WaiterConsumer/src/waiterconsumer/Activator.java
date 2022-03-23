@@ -31,7 +31,7 @@ public class Activator implements BundleActivator {
 		@SuppressWarnings("unchecked")
 		TableManagerProduce tableproduce = (TableManagerProduce) bundleContext.getService(tablemanagerReference);//produce reference for table
 		int foodCount = -1;
-		String format = "%-20s";
+		String format = "%10s";
 		int oorderID = 0;
 		int stableID;
 		String back;
@@ -40,11 +40,11 @@ public class Activator implements BundleActivator {
 			System.out.println("...............Waiter Tasks...............\n");
 			System.out.println("Select task continue-------------------");
 			System.out.println(" 1. View all Orders");
-			System.out.println(" 2. Check OrderStatus By OrderID");
-			System.out.println(" 3. Check OrderStatus By TableID");
+			System.out.println(" 2. Check Order Details & status By OrderID");
+			System.out.println(" 3. Check Order Details & status By TableID");
 			System.out.println(" 4. Set OrderStatus to Delivered by Entering OrderID");
 			System.out.println(" 5. Set OrderStatus to Delivered by Entering TableID");
-			System.out.println(" 6. View Completed/Delivered Orders");
+			System.out.println(" 6. View Delivered/Completed Orders");
 			System.out.println(" 7. Exit");
 			
 			//
@@ -71,32 +71,49 @@ public class Activator implements BundleActivator {
 			
 		switch (task) {
 			case 1:
-				System.out.println("\n----------------------List of Orders & Details-------------------------------");
-		        System.out.println("-----------------------------------------------------------------------------");
-		        
+				System.out.println("\n----------------------List of Orders & Details----------------------------------------------------------------------------------------------");
+				
+				System.out.println("\n");
+				
+		      
 				for(Order order : OrderData.orderlist) {
-					System.out.println(order.getOrderID());
-					System.out.println(order.getTableID());
-					System.out.println(order.getOrderStatus());
-					
+					System.out.println("--------------------------------------------------------");
+					System.out.println("Order ID: "+ order.getOrderID());
+					System.out.println("Table ID: "+ order.getTableID());
+					System.out.println("Order Status: "+ order.getOrderStatus());
 					List<Table> tablelist=tableproduce.findtablebyID(order.getTableID());
 					
 					for(Table findTable:tablelist) {
-						System.out.println(findTable.getLocation());
+						System.out.println("Table Location: "+ findTable.getLocation());
 					}
+					System.out.println("");
+				try {
+					System.out.printf("%10s %10s %10s %10s ","Food ID","Food Name","Qty","Price");
+					System.out.println("");
+					boolean x = false;
+					  foodCount=20;
 					for (int i = 0; i <= foodCount; i++) {
 						for (int j = 0; j < order.getFoodDetails()[i].length; j++) {
-							System.out.printf(format, order.getFoodDetails()[i][j]);
+							x= order.getFoodDetails()[i][j].equals(null);
+							if(x==true) {break;}
+							System.out.printf("%10s", order.getFoodDetails()[i][j]);
+							
 						}
 						System.out.println("");
+						if(x==true) {break;}
+						
+						
+						
 					}
+				}catch(Exception e) {System.out.println("--------------------------------------------------------");}
 				}
-
+				
 				
 				
 				break;
 			case 2:
 				System.out.println("\n");
+			try {	
 				while(true) {
 					System.out.println("\n");
 					System.out.println(":::::::::::::::FIND Order BY OrderID :::::::::::::::");
@@ -124,30 +141,31 @@ public class Activator implements BundleActivator {
 						System.out.println("Details about Order............."+oorderID);
 						
 						for(Order findorder :orderlist) {
-							System.out.println(findorder.getOrderID());
-							System.out.println(findorder.getTableID());
-							System.out.println(findorder.getOrderStatus());
+							System.out.println("--------------------------------------------------------");
+							System.out.println("Order ID: "+findorder.getOrderID());
+							System.out.println("Table ID: "+findorder.getTableID());
+							System.out.println("Order Status: "+findorder.getOrderStatus());
 							
 							List<Table> tablelist=tableproduce.findtablebyID(findorder.getTableID());
 							
 							for(Table findTable:tablelist) {
-								System.out.println(" Table Location: "+ findTable.getLocation());
+								System.out.println("Table Location: "+ findTable.getLocation());
 							}
+							System.out.printf("%10s %10s %10s %10s ","Food ID","Food Name","Qty","Price");
+							System.out.println("");
+							boolean x = false;
+							  foodCount=20;
 							for (int i = 0; i <= foodCount; i++) {
 								for (int j = 0; j < findorder.getFoodDetails()[i].length; j++) {
-									System.out.printf(format, findorder.getFoodDetails()[i][j]);
+									x= findorder.getFoodDetails()[i][j].equals(null);
+									if(x==true) {break;}
+									System.out.printf("%10s", findorder.getFoodDetails()[i][j]);
 								}
+								if(x==true) {break;}
 								System.out.println("");
+								
+								
 							}
-						}
-
-						foodCount = -1;
-						System.out.println("\n DO YOU WANT TO EXIT PRESS 0 TO CONTINUE PRESS ANY OTHER");
-						back = scanner.next();
-						if (back.equals("0")) {
-							break;
-						} else {
-							continue;
 						}
 						
 					}else {
@@ -161,9 +179,12 @@ public class Activator implements BundleActivator {
 						}
 					}
 					//
-				}break;
+				}
+			    }catch(Exception e) {foodCount=-1;System.out.println("--------------------------------------------------------");}
+			break;
 				
 			case 3:
+			try {
 				while(true) {
 					System.out.println("\n");
 					System.out.println(":::::::::::::::FIND Order BY TableID :::::::::::::::");
@@ -194,33 +215,34 @@ public class Activator implements BundleActivator {
 						System.out.println("Details about Order with Table ID............."+stableID);
 						
 						for(Order findorder :orderlist) {
-							System.out.println(findorder.getOrderID());
-							System.out.println(findorder.getTableID());
-							System.out.println(findorder.getOrderStatus());
+							System.out.println("--------------------------------------------------------");
+							System.out.println("Order ID: "+findorder.getOrderID());
+							System.out.println("Table ID: "+findorder.getTableID());
+							System.out.println("Order Status: "+findorder.getOrderStatus());
 							
 							List<Table> tablelist=tableproduce.findtablebyID(findorder.getTableID());
 							
 							for(Table findTable:tablelist) {
-								System.out.println(" Table Location: "+ findTable.getLocation());
+								System.out.println("Table Location: "+ findTable.getLocation());
 							}
+							System.out.printf("%10s %10s %10s %10s ","Food ID","Food Name","Qty","Price");
+							System.out.println("");
+							boolean x = false;
+							  foodCount=20;
 							for (int i = 0; i <= foodCount; i++) {
 								for (int j = 0; j < findorder.getFoodDetails()[i].length; j++) {
+									x= findorder.getFoodDetails()[i][j].equals(null);
+									if(x==true) {break;}
 									System.out.printf(format, findorder.getFoodDetails()[i][j]);
 								}
+								if(x==true) {break;}
 								System.out.println("");
+								
+								
 							}
+							System.out.println("--------------------------------------------------------");
 						
-						}
-						foodCount = -1;
-						System.out.println("\n DO YOU WANT TO EXIT PRESS 0 TO CONTINUE PRESS ANY OTHER //214//");
-						back = scanner.next();
-						if (back.equals("0")) {
-							break;
-						} else {
-							continue;
-						}
-
-						
+						}	
 						
 					}else {
 						System.out.println("***NO Table WITH ID "+stableID+" EXIST***");
@@ -234,7 +256,9 @@ public class Activator implements BundleActivator {
 					}
 					//
 					
-				}break;
+				}
+			}catch(Exception e) {foodCount = -1; ;}
+				break;
 			case 4:
 				while(true) {
 					System.out.println(":::::::::::::::Set Order Status to Delivered  BY Entering OrderID :::::::::::::::");
@@ -451,25 +475,30 @@ public class Activator implements BundleActivator {
 					}
 		        
 				List<Order> completedOrders=waiter.CompletedOrder(x);
+				System.out.println("--------------------------------------------------------");
 				for(Order orders:completedOrders) {
-					System.out.println(orders.getOrderID());
-					System.out.println(orders.getTableID());
-					System.out.println(orders.getOrderStatus());
+					System.out.println("Order ID: "+orders.getOrderID());
+					System.out.println("Table ID: "+orders.getTableID());
+					System.out.println("Order Status: "+orders.getOrderStatus());
 					
 				  List<Table> tablelist=tableproduce.findtablebyID(orders.getTableID());
 					
 					for(Table findTable:tablelist) {
-						System.out.println(" Table Location: "+ findTable.getLocation());
+						System.out.println("Table Location: "+ findTable.getLocation());
 					}
+					System.out.printf("%10s %10s %10s %10s ","Food ID","Food Name","Qty","Price");
 					for (int i = 0; i <= foodCount; i++) {
 						for (int j = 0; j < orders.getFoodDetails()[i].length; j++) {
 							System.out.printf(format, orders.getFoodDetails()[i][j]);
 						}
 						System.out.println("");
 					}
+					System.out.println("");
+					System.out.println("--------------------------------------------------------");
 					
 				}
 				foodCount = -1;
+				
 				break;
 			
 			case 7:

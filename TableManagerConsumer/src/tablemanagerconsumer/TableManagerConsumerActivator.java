@@ -230,17 +230,25 @@ public class TableManagerConsumerActivator implements BundleActivator {
 						List<Table> tablelist=tableproduce.findtablebyID(tableID);
 						
 						System.out.println("Details of new table added............. "+tableID);
+						System.out.println("-----------------------------------------------------------------------------");
+						System.out.printf("%12s %20s %20s %15s", "Table ID", "Table Location", "Number Of Seats", "Status");
+						
 						
 						for(Table findTable:tablelist) {
-							System.out.println(" Table ID: "+ findTable.getTableID());
+							/*System.out.println(" Table ID: "+ findTable.getTableID());
 							System.out.println(" Table Location: "+ findTable.getLocation());
 							System.out.println(" Number of Seats: "+ findTable.getNoSeats());
-							System.out.println(" Status of table: "+ findTable.getStatus());
+							System.out.println(" Status of table: "+ findTable.getStatus());*/
+							System.out.print("\n");
+							System.out.printf("%6s %20s %20s %20s",findTable.getTableID(), findTable.getLocation(), findTable.getNoSeats(), findTable.getStatus());
 							
 						}
 						
 					
 					//
+					System.out.print("\n");
+					System.out.println("-----------------------------------------------------------------------------");
+					System.out.print("\n");
 					
 					System.out.println("\n Enter 0 to navigate back to home or press any other key to continue....");
 					back = scanner.next();
@@ -295,7 +303,7 @@ public class TableManagerConsumerActivator implements BundleActivator {
 						//
 						int updatetype=0;
 						while(true) {
-							System.out.print("\n Enter:");
+							System.out.print("\nEnter:");
 							String ttype=scanner.next();
 							try {
 								updatetype = Integer.parseInt(ttype);
@@ -319,23 +327,50 @@ public class TableManagerConsumerActivator implements BundleActivator {
 							}
 						}
 						//
-						if(updatetype==1) {
-							tableproduce.updateStatus(stableID,"Available");
+						if(updatetype==1) {//code is  check if update type is already what exists.
+							boolean x=tableproduce.updateStatus(stableID,"Available");
+							if(x==true) {
+								System.out.println("UPDATE SUCCESSFULL :)");
+								// retrieve updated table details
+								List<Table> tablelist=tableproduce.findtablebyID(stableID);
+								
+								
+								for(Table findTable:tablelist) {
+									System.out.println("Table "+stableID+" Status Updated to "+ findTable.getStatus());
+								}
+								
+							
+							//
+							}else {
+								System.out.println("Not Updated");
+								System.out.println("Table Status is already Available");
+							}
+							
+							
+							
 						}else {
-							tableproduce.updateStatus(stableID,"Reserved");
+							boolean x=tableproduce.updateStatus(stableID,"Reserved");
+							if(x==true) {
+								System.out.println("UPDATE SUCCESSFULL :)");
+								// retrieve updated table details
+								List<Table> tablelist=tableproduce.findtablebyID(stableID);
+								
+								
+								for(Table findTable:tablelist) {
+									System.out.println("Table "+stableID+" Status Updated to "+ findTable.getStatus());
+								}
+								
+							
+							//
+							}else {
+								System.out.println("Not Updated");
+								System.out.println("Table Status is already Reserved");
+							}
+							
 						}
 		
-						System.out.println("UPDATE SUCCESSFULL :)");
-						// retrieve updated table details
-						List<Table> tablelist=tableproduce.findtablebyID(stableID);
 						
-						
-						for(Table findTable:tablelist) {
-							System.out.println("Table "+stableID+" Status Updated to "+ findTable.getStatus());
-						}
-						
-					
-					//
+				
 						System.out.println("\n");
 						
 						System.out.print("Press 0 to navigate back to home or press any other key to continue....");
@@ -412,6 +447,7 @@ public class TableManagerConsumerActivator implements BundleActivator {
 						
 						
 						tableproduce.updateNoSeats(stableID,seatcount);
+						System.out.println("Update Successfull :)");
 						System.out.println("Seat Count of Table "+stableID+ " Changed to "+seatcount);
 						
 
@@ -525,14 +561,20 @@ public class TableManagerConsumerActivator implements BundleActivator {
 						List<Table> tablelist=tableproduce.findtablebyID(stableID);
 						
 						System.out.println("Details about table............."+stableID);
+						System.out.println("-----------------------------------------------------------------------------");
+						System.out.printf("%12s %20s %20s %15s", "Table ID", "Table Location", "Number Of Seats", "Status");
+						
 						
 						for(Table findTable:tablelist) {
-							System.out.println(" Table Location: "+ findTable.getLocation());
+							/*System.out.println(" Table Location: "+ findTable.getLocation());
 							System.out.println(" Number of Seats: "+ findTable.getNoSeats());
-							System.out.println(" Status of table: "+ findTable.getStatus());
+							System.out.println(" Status of table: "+ findTable.getStatus());*/
+							System.out.print("\n");
+							System.out.printf("%6s %20s %20s %20s",findTable.getTableID(), findTable.getLocation(), findTable.getNoSeats(), findTable.getStatus());
 							
 						}
-					
+						System.out.print("\n");
+						System.out.println("-----------------------------------------------------------------------------");
 						System.out.print("\n Press 0 to navigate back to home or press any other key to continue....");
 						String back5 = scanner.next();
 						
@@ -611,9 +653,9 @@ public class TableManagerConsumerActivator implements BundleActivator {
 									
 							//
 							System.out.print("\n Press 0 to navigate back to home or press any other key to continue....");
-							back = scanner.next();
+							String back6 = scanner.next();
 							
-							if (back=="0") {
+							if (back6.equals("0")) {
 								break;
 							} else {
 								continue;
