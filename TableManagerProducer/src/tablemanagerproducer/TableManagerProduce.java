@@ -3,7 +3,7 @@ package tablemanagerproducer;
 import java.util.List;
 public interface TableManagerProduce {
 	public void addTable(int NoSeats, String location, int tableID, String Status);//status reserved/available
-	public void updateStatus(int tableID, String Status);//update availability of table
+	public boolean updateStatus(int tableID, String Status);//update availability of table
 	public void updateNoSeats(int tableID, int NoSeats );//update number of seats of relavant table ID
 	public void removeTable(int tableID);//remove tabel
 	public List<Table> findtablebyID(int tableID);//find table by entering table ID
