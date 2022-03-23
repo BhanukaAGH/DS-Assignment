@@ -13,13 +13,17 @@ public class TableManagerProducerImpl implements TableManagerProduce {
 	}
 
 	@Override
-	public void updateStatus(int tableID, String Status) {//update table availability
+	public boolean updateStatus(int tableID, String Status) {//update table availability
 		for(Table table: TableData.tablelist) {
+			if(table.getStatus()==Status) {
+				return false;
+			}
 			if(table.getTableID()==tableID) {
 				table.setStatus(Status);
 				break;
 			}
 		}
+		return true;
 		
 	}
 
