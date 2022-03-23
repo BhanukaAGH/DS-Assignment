@@ -192,11 +192,7 @@ public class ServiceActivator implements BundleActivator {
 
 					foodCount = -1;
 
-					System.out.println("Press 0 to navigate back to home or press any other key to continue....");
-					String bback = scanner.next();
-					if (bback.equals("0")) {
-						break;
-					}else {continue;}
+					break;
 
 				}
 
