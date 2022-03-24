@@ -7,7 +7,11 @@ public class ChefPublishImpl implements ChefPublish {
 
 	@Override
 	public void addFood(String foodName, double foodPrice) {
-		Food newFood = new Food(DataStore.foodsList.size() + 1, foodName.trim(), foodPrice);
+		int foodID = 0;
+		if(DataStore.foodsList.size() > 0) {
+			foodID = DataStore.foodsList.get(DataStore.foodsList.size() - 1).getFoodId();		
+		}
+		Food newFood = new Food(foodID + 1, foodName.trim(), foodPrice);
 		DataStore.foodsList.add(newFood);
 	}
 
